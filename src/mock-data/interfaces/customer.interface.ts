@@ -29,7 +29,10 @@ export interface WealthSpecialist {
 }
 
 export interface Transaction {
+  customerId: string;
   id: string;
+  fundId: string;
+  fundName: string;
   type: 'Subscribe' | 'Switch' | 'Redeem';
   amount: number;
   date: string;

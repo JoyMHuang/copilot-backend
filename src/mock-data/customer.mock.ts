@@ -49,25 +49,34 @@ export const mockWealthSpecialist: WealthSpecialist = {
 
 export const mockTransactions: Transaction[] = [
   {
-    id: '1',
+    id: 'TXN001',
+    customerId: '1',
+    fundId: 'FUND001',
+    fundName: 'Manulife Growth Fund',
     type: 'Subscribe',
     amount: 50000,
     date: '2025-07-15',
-    status: 'Completed'
+    status: 'Completed',
   },
   {
-    id: '2',
+    id: 'TXN002',
+    customerId: '1',
+    fundId: 'FUND002',
+    fundName: 'Manulife Bond Fund',
     type: 'Switch',
     amount: 25000,
     date: '2025-07-10',
-    status: 'Pending'
+    status: 'Pending',
   },
   {
-    id: '3',
+    id: 'TXN003',
+    customerId: '1',
+    fundId: 'FUND003',
+    fundName: 'Manulife Balanced Fund',
     type: 'Redeem',
     amount: 15000,
     date: '2025-07-05',
-    status: 'Completed'
+    status: 'Completed',
   }
 ];
 

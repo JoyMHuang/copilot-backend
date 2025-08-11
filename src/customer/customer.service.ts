@@ -18,9 +18,11 @@ export class CustomerService {
       ...mockDashboardData.wealthSpecialist
     };
 
-    const transactions: TransactionDto[] = mockDashboardData.transactions.map(transaction => ({
-      ...transaction
-    }));
+    const transactions: TransactionDto[] = mockDashboardData.transactions
+      .filter(transaction => transaction.customerId === customerId)
+      .map(transaction => ({
+        ...transaction
+      }));
 
     return {
       portfolioData,
@@ -38,6 +40,6 @@ export class CustomerService {
   }
 
   getTransactions(customerId: string): TransactionDto[] {
-    return this.getDashboardData(customerId).transactions;
+    return mockDashboardData.transactions.filter(transaction => transaction.customerId === customerId);
   }
 }
