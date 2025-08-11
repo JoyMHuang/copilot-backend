@@ -1,6 +1,8 @@
-# NestJS Training Project
+# Project Overview
 
-这是一个使用 NestJS 构建的后端训练项目，包含三个核心业务模块。
+This repository contains a full-stack application with a NestJS backend and a React frontend. The backend manages customer, fund, and transaction data, while the frontend provides a user-friendly interface for interacting with these modules.
+
+---
 
 ## 🚀 服务状态
 
@@ -8,30 +10,41 @@
 ✅ **Swagger 文档** - 可在 http://localhost:8001/api/docs 查看
 ✅ **三个业务模块已创建**：Customer、Fund、Transaction
 
-## 📁 项目结构
+---
 
+## 🏗️ File Structure
+
+### Backend (copilot-backend)
 ```
 src/
-├── app.controller.ts    # 应用控制器
-├── app.module.ts        # 应用模块（包含所有子模块）
-├── app.service.ts       # 应用服务
-├── main.ts             # 应用入口
-├── customer/           # 客户模块
+├── app.controller.ts         # Main application controller
+├── app.module.ts             # Root module, imports all feature modules
+├── app.service.ts            # Main application service
+├── main.ts                   # Entry point
+├── customer/                 # Customer feature module
 │   ├── customer.controller.ts
 │   ├── customer.service.ts
 │   ├── customer.module.ts
-│   └── *.spec.ts       # 测试文件
-├── fund/               # 基金模块
+│   └── dto/portfolio.dto.ts
+├── fund/                     # Fund feature module
 │   ├── fund.controller.ts
 │   ├── fund.service.ts
 │   ├── fund.module.ts
-│   └── *.spec.ts       # 测试文件
-└── transaction/        # 交易模块
-    ├── transaction.controller.ts
-    ├── transaction.service.ts
-    ├── transaction.module.ts
-    └── *.spec.ts       # 测试文件
+│   └── fund.dto.ts
+├── transaction/              # Transaction feature module
+│   ├── transaction.controller.ts
+│   ├── transaction.service.ts
+│   ├── transaction.module.ts
+├── mock-data/                # Mock data and interfaces
+│   ├── customer.mock.ts
+│   ├── fund.mock.ts
+│   ├── transaction.mock.ts
+│   └── interfaces/
+│       ├── customer.interface.ts
+│       ├── transaction.interface.ts
 ```
+
+---
 
 ## 🔗 可用 API 端点
 
@@ -47,6 +60,8 @@ src/
 ### Transaction 模块 (交易管理)
 - `GET /api/transaction` - 获取所有交易
 
+---
+
 ## 🛠️ 技术栈
 
 - **框架**: NestJS 10.x
@@ -54,6 +69,70 @@ src/
 - **文档**: Swagger/OpenAPI
 - **验证**: class-validator
 - **转换**: class-transformer
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+```
+git clone <repo-url>
+cd copilot-backend
+```
+
+### 2. Install backend dependencies
+```
+npm install
+```
+
+### 3. Start the backend server
+```
+npm run start:dev
+# API available at http://localhost:8001
+# Swagger docs at http://localhost:8001/api/docs
+```
+
+---
+
+## 📝 Main Features
+
+### Backend (NestJS)
+- Customer Management: CRUD operations for customers.
+- Fund Management: CRUD operations for funds.
+- Transaction Management: CRUD operations for transactions.
+- Swagger API Docs: Interactive API documentation.
+- Modular Structure: Each feature is isolated in its own module for maintainability.
+
+---
+
+## 🛠️ Router Configuration and Component Structure
+
+### Backend Routing
+- All API routes are prefixed with `/api`.
+- Feature modules:
+  - `/api/customer` for customer operations
+  - `/api/fund` for fund operations
+  - `/api/transaction` for transaction operations
+- Each module has its own controller and service for separation of concerns.
+
+### React Frontend (if present)
+- Typical structure includes:
+  - `App.js`: Root component, sets up router and layout
+  - `components/`: Reusable UI elements (tables, forms, etc.)
+  - `pages/`: High-level views for each entity
+  - Routing via `react-router-dom` (e.g., `/customers`, `/funds`, `/transactions`)
+
+---
+
+## 💡 Tips for New Developers
+
+- Use Swagger docs for quick API testing.
+- Each backend module is self-contained—add new features by creating new modules.
+- Keep frontend components small and focused. Use hooks for state management and API calls.
+- Run `npm run test` for backend unit tests.
+- Follow single responsibility principle for both services and components. Update interfaces and DTOs as needed when backend models change.
+
+---
 
 ## 🔧 快速开始
 
