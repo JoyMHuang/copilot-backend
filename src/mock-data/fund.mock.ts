@@ -1,5 +1,7 @@
 import { Fund } from './interfaces/fund.interface';
 
+export type { Fund };
+
 export const mockFunds: Fund[] = [
   {
     id: 'FUND001',

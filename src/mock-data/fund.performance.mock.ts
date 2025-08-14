@@ -1,4 +1,5 @@
-import { Fund } from '../mock-data/interfaces/fund.interface';
+
+export type { Fund } from '../mock-data/interfaces/fund.interface';
 
 export interface FundPerformance {
   fundId: string;

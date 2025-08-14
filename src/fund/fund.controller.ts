@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Res, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query, StreamableFile } from '@nestjs/common';
 import * as PDFDocument from 'pdfkit';
-import { Response } from 'express';
+// import { Response } from 'express';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { FundService } from './fund.service';
 import { Fund, FundPerformance } from '../mock-data';
@@ -13,36 +13,46 @@ export class FundController {
   @Get(':id/performance/pdf')
   @ApiOperation({ summary: 'Export fund performance as PDF report' })
   @ApiResponse({ status: 200, description: 'PDF report' })
-  async exportPerformancePdf(@Param('id') id: string, @Res() res: Response, @Query('latest') latest?: string) {
+  async exportPerformancePdf(@Param('id') id: string, @Query('latest') latest?: string): Promise<StreamableFile> {
     const fund = this.fundService.findOne(id);
     const performances = latest === 'true'
       ? this.fundService.getPerformance(id).slice(-1)
       : this.fundService.getPerformance(id);
 
+    const PDFDocument = (await import('pdfkit')).default;
     const doc = new PDFDocument();
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="${fund.name}-performance.pdf"`);
-    doc.pipe(res);
+    const chunks: Buffer[] = [];
+    doc.on('data', (chunk) => chunks.push(chunk));
 
-    doc.fontSize(18).text(`${fund.name} (${fund.code}) Performance Report`, { align: 'center' });
-    doc.moveDown();
-    doc.fontSize(12).text(`Fund Type: ${fund.type}`);
-    doc.text(`Risk Level: ${fund.riskLevel}`);
-    doc.text(`Currency: ${fund.currency}`);
-    doc.moveDown();
-    doc.text('Performance History:', { underline: true });
+    return new Promise<StreamableFile>((resolve) => {
+      doc.on('end', () => {
+        const pdfBuffer = Buffer.concat(chunks);
+        resolve(new StreamableFile(pdfBuffer, {
+          type: 'application/pdf',
+          disposition: `attachment; filename="${fund.name}-performance.pdf"`
+        }));
+      });
 
-    performances.forEach(perf => {
-      doc.moveDown(0.5);
-      doc.text(`Date: ${perf.date}`);
-      doc.text(`NAV: ${perf.nav}`);
-      doc.text(`YTD Return: ${perf.returnYTD}%`);
-      doc.text(`1Y Return: ${perf.return1Y}%`);
-      doc.text(`3Y Return: ${perf.return3Y}%`);
-      doc.text(`5Y Return: ${perf.return5Y}%`);
+      doc.fontSize(18).text(`${fund.name} (${fund.code}) Performance Report`, { align: 'center' });
+      doc.moveDown();
+      doc.fontSize(12).text(`Fund Type: ${fund.type}`);
+      doc.text(`Risk Level: ${fund.riskLevel}`);
+      doc.text(`Currency: ${fund.currency}`);
+      doc.moveDown();
+      doc.text('Performance History:', { underline: true });
+
+      performances.forEach(perf => {
+        doc.moveDown(0.5);
+        doc.text(`Date: ${perf.date}`);
+        doc.text(`NAV: ${perf.nav}`);
+        doc.text(`YTD Return: ${perf.returnYTD}%`);
+        doc.text(`1Y Return: ${perf.return1Y}%`);
+        doc.text(`3Y Return: ${perf.return3Y}%`);
+        doc.text(`5Y Return: ${perf.return5Y}%`);
+      });
+
+      doc.end();
     });
-
-    doc.end();
   }
 
   @Get()
