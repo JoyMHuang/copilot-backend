@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { MOCK_FUNDS } from './data/fund-mock.data';
+import { mockFunds } from '../mock-data/fund.mock';
 import { MOCK_FUND_DETAILS, getFundDetailsById } from './data/fund-details-mock.data';
 import { FundDto } from './dto/fund.dto';
 import { FundDetailsDto } from './dto/fund-details.dto';
@@ -7,7 +7,7 @@ import { FundDetailsDto } from './dto/fund-details.dto';
 @Injectable()
 export class FundService {
   findAll(): FundDto[] {
-    return MOCK_FUNDS;
+    return mockFunds;
   }
 
   findOne(id: string): FundDetailsDto {
