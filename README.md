@@ -121,7 +121,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import CustomerPage from '../.pages/CustomerPage';
 import FundPage from '../.pages/FundPage';
-import TransactionPage from '../.pages/TransactionPage';
+import CustomerPage from '../pages/CustomerPage';
+import FundPage from '../pages/FundPage';
+import TransactionPage from '../pages/TransactionPage';
 
 export default function Router() {
   return (
