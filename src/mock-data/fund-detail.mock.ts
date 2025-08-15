@@ -161,5 +161,4 @@ export const fundDetailMockData: FundDetailDto[] = [
     riskLevel: 'Medium',
     description: 'Sector focused fund.'
   },
-  // ...10 more mock items with similar structure...
 ];
