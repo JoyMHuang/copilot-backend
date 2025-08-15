@@ -19,7 +19,9 @@ export class FundController {
       ? this.fundService.getPerformance(id).slice(-1)
       : this.fundService.getPerformance(id);
 
-    const PDFDocument = (await import('pdfkit')).default;
+    // 兼容 CommonJS 和 ESM 的 pdfkit 导入
+    const PDFKitModule = await import('pdfkit');
+    const PDFDocument = PDFKitModule.default || PDFKitModule;
     const doc = new PDFDocument();
     const chunks: Buffer[] = [];
     doc.on('data', (chunk) => chunks.push(chunk));
